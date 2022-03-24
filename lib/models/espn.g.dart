@@ -24,7 +24,7 @@ League _$LeagueFromJson(Map<String, dynamic> json) => League(
       json['abbreviation'] as String,
       json['shortName'] as String,
       (json['teams'] as List<dynamic>)
-          .map((e) => Team.fromJson(e as Map<String, dynamic>))
+          .map((e) => TeamWrapper.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -50,16 +50,26 @@ Map<String, dynamic> _$SportToJson(Sport instance) => <String, dynamic>{
       'leagues': instance.leagues,
     };
 
-Image _$ImageFromJson(Map<String, dynamic> json) => Image(
+ImageAsset _$ImageAssetFromJson(Map<String, dynamic> json) => ImageAsset(
       json['href'] as String,
       json['width'] as int,
       json['height'] as int,
     );
 
-Map<String, dynamic> _$ImageToJson(Image instance) => <String, dynamic>{
+Map<String, dynamic> _$ImageAssetToJson(ImageAsset instance) =>
+    <String, dynamic>{
       'href': instance.href,
       'width': instance.width,
       'height': instance.height,
+    };
+
+TeamWrapper _$TeamWrapperFromJson(Map<String, dynamic> json) => TeamWrapper(
+      Team.fromJson(json['team'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$TeamWrapperToJson(TeamWrapper instance) =>
+    <String, dynamic>{
+      'team': instance.team.toJson(),
     };
 
 Team _$TeamFromJson(Map<String, dynamic> json) => Team(
@@ -72,7 +82,7 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team(
       json['color'] as String,
       json['alternateColor'] as String,
       (json['logos'] as List<dynamic>)
-          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .map((e) => ImageAsset.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

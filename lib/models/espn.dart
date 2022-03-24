@@ -18,7 +18,7 @@ class League {
   String name;
   String abbreviation;
   String shortName;
-  List<Team> teams;
+  List<TeamWrapper> teams;
 
   League(this.id, this.name, this.abbreviation, this.shortName, this.teams);
 
@@ -39,15 +39,25 @@ class Sport {
 }
 
 @JsonSerializable()
-class Image {
+class ImageAsset {
   String href;
   int width;
   int height;
 
-  Image(this.href, this.width, this.height);
+  ImageAsset(this.href, this.width, this.height);
 
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
-  Map<String, dynamic> toJson() => _$ImageToJson(this);
+  factory ImageAsset.fromJson(Map<String, dynamic> json) => _$ImageAssetFromJson(json);
+  Map<String, dynamic> toJson() => _$ImageAssetToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class TeamWrapper {
+  Team team;
+
+  TeamWrapper(this.team);
+
+  factory TeamWrapper.fromJson(Map<String, dynamic> json) => _$TeamWrapperFromJson(json);
+  Map<String, dynamic> toJson() => _$TeamWrapperToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -60,7 +70,7 @@ class Team {
   String shortDisplayName;
   String color;
   String alternateColor;
-  List<Image> logos;
+  List<ImageAsset> logos;
 
   Team(this.id, this.location, this.name, this.abbreviation, this.displayName,
       this.shortDisplayName, this.color, this.alternateColor, this.logos);

@@ -9,6 +9,6 @@ class ESPN {
      var response = await http.get(Uri.parse('$baseURL/sports/basketball/nba/teams'));
      var jsonBody = json.decode(response.body);
      var teamsResponse = TeamsResponse.fromJson(jsonBody);
-     return teamsResponse.sports[0].leagues[0].teams;
+     return teamsResponse.sports[0].leagues[0].teams.map((t) => t.team).toList();
    }
 }

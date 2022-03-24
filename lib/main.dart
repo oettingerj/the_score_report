@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:the_score_report/components/team.dart';
+import 'package:the_score_report/services/espn.dart';
+
+import 'models/espn.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,13 +33,13 @@ class MyApp extends StatelessWidget {
           elevation: 0
         )
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const TeamsList(title: 'NBA Teams'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class TeamsList extends StatefulWidget {
+  const TeamsList({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -49,21 +53,19 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<TeamsList> createState() => _TeamsListState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _TeamsListState extends State<TeamsList> {
+  List<Team> teams = [];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    ESPN.getNBATeams().then((teamsList) => setState(() {
+        teams = teamsList;
+      })
+    );
   }
 
   @override
@@ -80,20 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: Card(
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-                'Hello world'
-            ),
-          )
+      body: Center(
+        child: ListView(
+          children: teams.map((team) => TeamDisplay(team: team)).toList(),
         )
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
