@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:the_score_report/components/card.dart';
 
 void main() {
   runApp(const MyApp());
